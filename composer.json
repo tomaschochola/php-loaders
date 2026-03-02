@@ -1,0 +1,145 @@
+{
+  "authors": [
+    {
+      "email": "tomaschochola@tomaschochola.cz",
+      "homepage": "https://github.com/tomaschochola",
+      "name": "Tomáš Chochola",
+      "role": "Author"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "TomasChochola\\Quickmux\\": "./src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "./tests"
+    }
+  },
+  "config": {
+    "allow-plugins": false,
+    "audit": {
+      "abandoned": "fail"
+    },
+    "platform-check": true,
+    "process-timeout": 0,
+    "sort-packages": true
+  },
+  "description": "tomaschochola/php-quickmux",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/tomaschochola"
+    }
+  ],
+  "homepage": "https://github.com/tomaschochola/php-quickmux",
+  "keywords": [
+    "tomaschochola",
+    "TomasChochola",
+    "Tomas Chochola",
+    "Tomáš Chochola",
+    "php-quickmux"
+  ],
+  "license": "CC-BY-ND-4.0",
+  "minimum-stability": "dev",
+  "name": "tomaschochola/php-quickmux",
+  "prefer-stable": true,
+  "readme": "./README.md",
+  "repositories": [
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-tooling-phpstan-config.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-tooling-php-cs-fixer-config.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-20-clock.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-18-http-client.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-17-http-factory.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-16-simple-cache.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-15-request-handlers.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-11-container.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-7-http-message.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-psr-3-logger.git"
+    },
+    {
+      "no-api": true,
+      "type": "git",
+      "url": "https://github.com/tomaschochola/php-splx.git"
+    }
+  ],
+  "require": {
+    "ext-apcu": "*",
+    "ext-zend-opcache": "*",
+    "php": "^8.5.0",
+    "psr/clock": "^1.0",
+    "psr/container": "^2.0",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.1",
+    "psr/http-message": "^2.0",
+    "psr/http-server-handler": "^1.0",
+    "psr/http-server-middleware": "^1.0",
+    "psr/log": "^3.0",
+    "psr/simple-cache": "^3.0",
+    "tomaschochola/php-psr-11-container": "^1.0@dev",
+    "tomaschochola/php-psr-15-request-handlers": "^1.0@dev",
+    "tomaschochola/php-psr-16-simple-cache": "^1.0@dev",
+    "tomaschochola/php-psr-17-http-factory": "^1.0@dev",
+    "tomaschochola/php-psr-18-http-client": "^1.0@dev",
+    "tomaschochola/php-psr-20-clock": "^1.0@dev",
+    "tomaschochola/php-psr-3-logger": "^1.0@dev",
+    "tomaschochola/php-psr-7-http-message": "^1.0@dev"
+  },
+  "require-dev": {
+    "ext-intl": "*",
+    "ext-pcntl": "*",
+    "ext-xdebug": "*",
+    "ext-zip": "*",
+    "phpunit/phpunit": "^12.5",
+    "roave/security-advisories": "dev-latest",
+    "tomaschochola/php-tooling-php-cs-fixer-config": "^1.0@dev",
+    "tomaschochola/php-tooling-phpstan-config": "^1.0@dev"
+  },
+  "support": {
+    "docs": "https://github.com/tomaschochola/php-quickmux",
+    "email": "tomaschochola@tomaschochola.cz",
+    "issues": "https://github.com/tomaschochola/php-quickmux/issues",
+    "source": "https://github.com/tomaschochola/php-quickmux.git"
+  },
+  "type": "library"
+}

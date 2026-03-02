@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @author Tomáš Chochola <tomaschochola@tomaschochola.cz>
+ * @copyright © 2026 Tomáš Chochola <tomaschochola@tomaschochola.cz>
+ *
+ * @license CC-BY-ND-4.0
+ *
+ * @see {@link https://creativecommons.org/licenses/by-nd/4.0/} License
+ * @see {@link https://github.com/tomaschochola} GitHub Profile
+ * @see {@link https://github.com/sponsors/tomaschochola} GitHub Sponsors
+ */
+
+declare(strict_types=1);
+
+namespace TomasChochola\Quickmux;
+
+use DirectoryIterator;
+use Override;
+use TomasChochola\Psr\Container\RegistrarInterface;
+use Traversable;
+
+use function assert;
+use function is_iterable;
+use function parse_ini_file;
+
+use const INI_SCANNER_TYPED;
+
+/**
+ * @no-named-arguments
+ */
+readonly class IniConfigLoader implements RegistrarInterface
+{
+    protected readonly DirectoryIterator $files;
+
+    protected readonly bool $processSections;
+
+    protected readonly int $scannerMode;
+
+    public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_TYPED)
+    {
+        $this->files = $files;
+        $this->processSections = $processSections;
+        $this->scannerMode = $scannerMode;
+    }
+
+    #[Override]
+    public function getIterator(): Traversable
+    {
+        foreach ($this->files as $file) {
+            $parsed = parse_ini_file((string) $file, $this->processSections, $this->scannerMode);
+
+            assert(is_iterable($parsed));
+
+            yield from $parsed;
+        }
+    }
+}

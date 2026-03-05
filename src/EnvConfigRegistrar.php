@@ -28,7 +28,7 @@ use function is_int;
  *
  * @no-named-arguments
  */
-readonly class EnvConfigLoader implements IteratorAggregate, RegistrarInterface
+readonly class EnvConfigRegistrar implements IteratorAggregate, RegistrarInterface
 {
     /**
      * @var iterable<int|string, string>

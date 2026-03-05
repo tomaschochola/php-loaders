@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace TomasChochola\Quickmux;
 
 use GlobIterator;
-use TomasChochola\Psr\Http\RequestHandlers\ContainerRegistry as TomasChocholaPsrHttpRequestHandlersContainerRegistry;
+use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersRegistrar;
 use UnexpectedValueException;
 
 use function getenv;
@@ -72,9 +72,9 @@ readonly class Bootstrapper
     {
         $scope = static::appenv();
 
-        yield from new IniConfigLoader(new GlobIterator(static::directory() . '/config/' . $scope . '.ini'));
+        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/config/' . $scope . '.ini'));
 
-        yield from new IniConfigLoader(new GlobIterator(static::directory() . '/.env.' . $scope . '.ini'));
+        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/.env.' . $scope . '.ini'));
     }
 
     /**
@@ -82,7 +82,7 @@ readonly class Bootstrapper
      */
     protected static function environment(): iterable
     {
-        yield from new EnvConfigLoader(static::ENVIRONMENT);
+        yield from new EnvConfigRegistrar(static::ENVIRONMENT);
     }
 
     /**
@@ -90,9 +90,9 @@ readonly class Bootstrapper
      */
     protected static function ini(): iterable
     {
-        yield from new IniConfigLoader(new GlobIterator(static::directory() . '/config/base.ini'));
+        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/config/base.ini'));
 
-        yield from new IniConfigLoader(new GlobIterator(static::directory() . '/.env.ini'));
+        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/.env.ini'));
     }
 
     /**
@@ -100,8 +100,8 @@ readonly class Bootstrapper
      */
     protected static function quickmux(): iterable
     {
-        yield from new TomasChocholaPsrHttpRequestHandlersContainerRegistry();
+        yield from new RequestHandlersRegistrar();
 
-        yield from new ContainerRegistry();
+        yield from new QuickmuxRegistrar();
     }
 }

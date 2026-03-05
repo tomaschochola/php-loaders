@@ -29,7 +29,7 @@ use const INI_SCANNER_TYPED;
 /**
  * @no-named-arguments
  */
-readonly class IniConfigLoader implements RegistrarInterface
+readonly class IniConfigRegistrar implements RegistrarInterface
 {
     protected readonly DirectoryIterator $files;
 

@@ -29,7 +29,7 @@ use const PHP_SAPI;
 /**
  * @no-named-arguments
  */
-readonly class ApcuConfigCache
+readonly class BootstrapperCache
 {
     /**
      * @param callable(): iterable<int|string, mixed> $fresh

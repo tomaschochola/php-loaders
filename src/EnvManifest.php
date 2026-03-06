@@ -17,7 +17,6 @@ namespace TomasChochola\Quickmux;
 
 use IteratorAggregate;
 use Override;
-use TomasChochola\Psr\Container\RegistrarInterface;
 use Traversable;
 
 use function getenv;
@@ -28,7 +27,7 @@ use function is_int;
  *
  * @no-named-arguments
  */
-readonly class EnvConfigRegistrar implements IteratorAggregate, RegistrarInterface
+readonly class EnvManifest implements IteratorAggregate
 {
     /**
      * @var iterable<int|string, string>

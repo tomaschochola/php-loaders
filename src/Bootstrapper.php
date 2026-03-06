@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace TomasChochola\Quickmux;
 
 use GlobIterator;
-use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersRegistrar;
+use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersManifest;
 use UnexpectedValueException;
 
 use function getenv;
@@ -32,13 +32,12 @@ readonly class Bootstrapper
      */
     public const ENVIRONMENT = [
         'APP_ENV',
-        'APP_DEBUG',
     ];
 
     /**
      * @return iterable<int|string, mixed>
      */
-    public static function load(): iterable
+    public static function bootstrap(): iterable
     {
         yield from static::environment();
 
@@ -72,9 +71,9 @@ readonly class Bootstrapper
     {
         $scope = static::appenv();
 
-        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/config/' . $scope . '.ini'));
+        yield from new IniManifest(new GlobIterator(static::directory() . '/config/' . $scope . '.ini'));
 
-        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/.env.' . $scope . '.ini'));
+        yield from new IniManifest(new GlobIterator(static::directory() . '/.env.' . $scope . '.ini'));
     }
 
     /**
@@ -82,7 +81,7 @@ readonly class Bootstrapper
      */
     protected static function environment(): iterable
     {
-        yield from new EnvConfigRegistrar(static::ENVIRONMENT);
+        yield from new EnvManifest(static::ENVIRONMENT);
     }
 
     /**
@@ -90,9 +89,9 @@ readonly class Bootstrapper
      */
     protected static function ini(): iterable
     {
-        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/config/base.ini'));
+        yield from new IniManifest(new GlobIterator(static::directory() . '/config/base.ini'));
 
-        yield from new IniConfigRegistrar(new GlobIterator(static::directory() . '/.env.ini'));
+        yield from new IniManifest(new GlobIterator(static::directory() . '/.env.ini'));
     }
 
     /**
@@ -100,8 +99,8 @@ readonly class Bootstrapper
      */
     protected static function quickmux(): iterable
     {
-        yield from new RequestHandlersRegistrar();
+        yield from new RequestHandlersManifest();
 
-        yield from new QuickmuxRegistrar();
+        yield from new QuickmuxManifest();
     }
 }

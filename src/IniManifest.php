@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace TomasChochola\Quickmux;
 
 use DirectoryIterator;
+use IteratorAggregate;
 use Override;
-use TomasChochola\Psr\Container\RegistrarInterface;
 use Traversable;
 
 use function assert;
@@ -29,7 +29,7 @@ use const INI_SCANNER_TYPED;
 /**
  * @no-named-arguments
  */
-readonly class IniConfigRegistrar implements RegistrarInterface
+readonly class IniManifest implements IteratorAggregate
 {
     protected readonly DirectoryIterator $files;
 

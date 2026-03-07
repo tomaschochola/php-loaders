@@ -35,7 +35,7 @@ readonly class Bootstrapper
     ];
 
     /**
-     * @return iterable<int|string, mixed>
+     * @return iterable<mixed, mixed>
      */
     public static function bootstrap(): iterable
     {
@@ -65,7 +65,7 @@ readonly class Bootstrapper
     }
 
     /**
-     * @return iterable<int|string, mixed>
+     * @return iterable<mixed, mixed>
      */
     protected static function env(): iterable
     {
@@ -77,7 +77,7 @@ readonly class Bootstrapper
     }
 
     /**
-     * @return iterable<int|string, mixed>
+     * @return iterable<mixed, mixed>
      */
     protected static function environment(): iterable
     {
@@ -85,7 +85,7 @@ readonly class Bootstrapper
     }
 
     /**
-     * @return iterable<int|string, mixed>
+     * @return iterable<mixed, mixed>
      */
     protected static function ini(): iterable
     {
@@ -95,7 +95,7 @@ readonly class Bootstrapper
     }
 
     /**
-     * @return iterable<int|string, mixed>
+     * @return iterable<mixed, mixed>
      */
     protected static function quickmux(): iterable
     {

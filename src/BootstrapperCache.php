@@ -32,9 +32,9 @@ use const PHP_SAPI;
 readonly class BootstrapperCache
 {
     /**
-     * @param callable(): iterable<int|string, mixed> $fresh
+     * @param callable(): iterable<mixed, mixed> $fresh
      *
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     public static function remember(callable $fresh): array
     {

@@ -15,9 +15,9 @@ declare(strict_types=1);
 
 namespace TomasChochola\Quickmux;
 
+use IteratorAggregate;
 use NoDiscard;
 use Override;
-use IteratorAggregate;
 use Psr\Clock\ClockInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -38,6 +38,8 @@ use Traversable;
 
 /**
  * @no-named-arguments
+ *
+ * @implements IteratorAggregate<mixed, mixed>
  */
 readonly class QuickmuxManifest implements IteratorAggregate
 {

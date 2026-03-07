@@ -28,6 +28,8 @@ use const INI_SCANNER_TYPED;
 
 /**
  * @no-named-arguments
+ *
+ * @implements IteratorAggregate<mixed, mixed>
  */
 readonly class IniManifest implements IteratorAggregate
 {

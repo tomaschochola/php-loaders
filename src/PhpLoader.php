@@ -22,39 +22,30 @@ use Traversable;
 
 use function assert;
 use function is_iterable;
-use function parse_ini_file;
-
-use const INI_SCANNER_TYPED;
 
 /**
  * @no-named-arguments
  *
  * @implements IteratorAggregate<mixed, mixed>
  */
-readonly class IniManifest implements IteratorAggregate
+readonly class PhpLoader implements IteratorAggregate
 {
     protected readonly DirectoryIterator $files;
 
-    protected readonly bool $processSections;
-
-    protected readonly int $scannerMode;
-
-    public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_TYPED)
+    public function __construct(DirectoryIterator $files)
     {
         $this->files = $files;
-        $this->processSections = $processSections;
-        $this->scannerMode = $scannerMode;
     }
 
     #[Override]
     public function getIterator(): Traversable
     {
         foreach ($this->files as $file) {
-            $parsed = parse_ini_file((string) $file, $this->processSections, $this->scannerMode);
+            $loaded = require (string) $file;
 
-            assert(is_iterable($parsed));
+            assert(is_iterable($loaded));
 
-            yield from $parsed;
+            yield from $loaded;
         }
     }
 }

@@ -27,7 +27,7 @@ use function is_int;
  *
  * @no-named-arguments
  */
-readonly class EnvManifest implements IteratorAggregate
+readonly class EnvLoader implements IteratorAggregate
 {
     /**
      * @var iterable<int|string, string>

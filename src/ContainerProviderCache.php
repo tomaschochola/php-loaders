@@ -16,10 +16,9 @@ declare(strict_types=1);
 namespace TomasChochola\Quickmux;
 
 use TomasChochola\Psr\SimpleCache\ApcuSimpleCache;
-use UnexpectedValueException;
+use TomasChochola\Psr\SimpleCache\SimpleCaches;
 
 use function apcu_enabled;
-use function is_array;
 use function iterator_to_array;
 use function opcache_is_script_cached;
 
@@ -28,34 +27,18 @@ use const PHP_SAPI;
 /**
  * @no-named-arguments
  */
-readonly class BootstrapperCache
+readonly class ContainerProviderCache
 {
     /**
-     * @param callable(): iterable<mixed, mixed> $fresh
-     *
      * @return array<mixed, mixed>
      */
-    public static function remember(callable $fresh): array
+    public static function remember(ContainerProvider $provider): array
     {
         if (!static::enabled()) {
-            return iterator_to_array($fresh());
+            return iterator_to_array($provider);
         }
 
-        $cache = new ApcuSimpleCache();
-        $config = $cache->get(static::class);
-
-        if (is_array($config)) {
-            return $config;
-        }
-
-        $config = iterator_to_array($fresh());
-        $ok = $cache->set(static::class, $config);
-
-        if (!$ok) {
-            throw new UnexpectedValueException($cache::class . '->set');
-        }
-
-        return $config;
+        return SimpleCaches::remember(new ApcuSimpleCache(), $provider::class, static fn(): array => iterator_to_array($provider));
     }
 
     protected static function enabled(): bool

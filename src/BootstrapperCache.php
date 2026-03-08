@@ -15,11 +15,10 @@ declare(strict_types=1);
 
 namespace TomasChochola\Quickmux;
 
+use TomasChochola\Psr\SimpleCache\ApcuSimpleCache;
 use UnexpectedValueException;
 
 use function apcu_enabled;
-use function apcu_fetch;
-use function apcu_store;
 use function is_array;
 use function iterator_to_array;
 use function opcache_is_script_cached;
@@ -42,18 +41,18 @@ readonly class BootstrapperCache
             return iterator_to_array($fresh());
         }
 
-        $ok = false;
-        $cache = apcu_fetch(static::class, $ok);
+        $cache = new ApcuSimpleCache();
+        $config = $cache->get(static::class);
 
-        if ($ok && is_array($cache)) {
-            return $cache;
+        if (is_array($config)) {
+            return $config;
         }
 
         $config = iterator_to_array($fresh());
-        $ok = apcu_store(static::class, $config);
+        $ok = $cache->set(static::class, $config);
 
         if (!$ok) {
-            throw new UnexpectedValueException('apcu_store');
+            throw new UnexpectedValueException($cache::class . '->set');
         }
 
         return $config;

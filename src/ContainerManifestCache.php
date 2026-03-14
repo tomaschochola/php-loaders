@@ -27,18 +27,18 @@ use const PHP_SAPI;
 /**
  * @no-named-arguments
  */
-readonly class ContainerProviderCache
+readonly class ContainerManifestCache
 {
     /**
      * @return array<mixed, mixed>
      */
-    public static function remember(ContainerProvider $provider): array
+    public static function remember(ContainerManifest $manifest): array
     {
         if (!static::enabled()) {
-            return iterator_to_array($provider);
+            return iterator_to_array($manifest);
         }
 
-        return SimpleCaches::remember(new ApcuSimpleCache(), $provider::class, static fn(): array => iterator_to_array($provider));
+        return SimpleCaches::remember(new ApcuSimpleCache(), $manifest::class, static fn(): array => iterator_to_array($manifest));
     }
 
     protected static function enabled(): bool

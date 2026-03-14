@@ -18,15 +18,16 @@ namespace TomasChochola\Quickmux;
 use GlobIterator;
 use IteratorAggregate;
 use Override;
-use TomasChochola\Psr\Clock\ClockProvider;
-use TomasChochola\Psr\Clock\ClockOverrideProvider;
-use TomasChochola\Psr\Http\Client\HttpClientProvider;
-use TomasChochola\Psr\Http\Factory\HttpFactoryProvider;
-use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersOverrideProvider;
-use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersProvider;
-use TomasChochola\Psr\Log\LoggerProvider;
-use TomasChochola\Psr\SimpleCache\SimpleCacheOverrideProvider;
-use TomasChochola\Psr\SimpleCache\SimpleCacheProvider;
+use TomasChochola\Psr\Clock\ClockManifest;
+use TomasChochola\Psr\Clock\ClockTestingManifest;
+use TomasChochola\Psr\Http\Client\HttpClientManifest;
+use TomasChochola\Psr\Http\Factory\HttpFactoryManifest;
+use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersTestingManifest;
+use TomasChochola\Psr\Http\RequestHandlers\RequestHandlersManifest;
+use TomasChochola\Psr\Log\LoggerTestingManifest;
+use TomasChochola\Psr\Log\LoggerManifest;
+use TomasChochola\Psr\SimpleCache\SimpleCacheTestingManifest;
+use TomasChochola\Psr\SimpleCache\SimpleCacheManifest;
 use Traversable;
 use UnexpectedValueException;
 
@@ -38,7 +39,7 @@ use function is_string;
  *
  * @implements IteratorAggregate<mixed, mixed>
  */
-readonly class ContainerProvider implements IteratorAggregate
+readonly class ContainerManifest implements IteratorAggregate
 {
     /**
      * @var list<string>
@@ -125,12 +126,12 @@ readonly class ContainerProvider implements IteratorAggregate
      */
     protected static function framework(): iterable
     {
-        yield from new ClockProvider();
-        yield from new HttpClientProvider();
-        yield from new HttpFactoryProvider();
-        yield from new RequestHandlersProvider();
-        yield from new LoggerProvider();
-        yield from new SimpleCacheProvider();
+        yield from new ClockManifest();
+        yield from new HttpClientManifest();
+        yield from new HttpFactoryManifest();
+        yield from new RequestHandlersManifest();
+        yield from new LoggerManifest();
+        yield from new SimpleCacheManifest();
     }
 
     /**
@@ -138,9 +139,10 @@ readonly class ContainerProvider implements IteratorAggregate
      */
     protected static function overrides(): iterable
     {
-        yield from new ClockOverrideProvider();
-        yield from new RequestHandlersOverrideProvider();
-        yield from new SimpleCacheOverrideProvider();
+        yield from new ClockTestingManifest();
+        yield from new RequestHandlersTestingManifest();
+        yield from new LoggerTestingManifest();
+        yield from new SimpleCacheTestingManifest();
     }
 
     /**

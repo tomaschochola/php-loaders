@@ -34,8 +34,11 @@ readonly class PsrTestingManifest implements IteratorAggregate
     public function getIterator(): Traversable
     {
         yield from new PsrClockTestingManifest();
+
         yield from new PsrRequestHandlersTestingManifest();
+
         yield from new PsrLoggerTestingManifest();
+
         yield from new PsrSimpleCacheTestingManifest();
     }
 }

@@ -19,6 +19,7 @@ use IteratorAggregate;
 use NoDiscard;
 use Override;
 use Psr\Clock\ClockInterface;
+use TomasChochola\Psr\Clock\FixedClock;
 use Traversable;
 
 /**

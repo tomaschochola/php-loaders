@@ -18,6 +18,8 @@ namespace TomasChochola\Quickmux\Psr\Log;
 use IteratorAggregate;
 use NoDiscard;
 use Override;
+use TomasChochola\Psr\Log\ExporterInterface;
+use TomasChochola\Psr\Log\TestingExporter;
 use Traversable;
 
 /**

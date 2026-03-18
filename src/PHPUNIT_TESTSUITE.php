@@ -15,9 +15,13 @@ declare(strict_types=1);
 
 namespace TomasChochola\Quickmux;
 
+use UnexpectedValueException;
+
 use function filter_var;
 use function getenv;
+use function is_bool;
 
+use const FILTER_NULL_ON_FAILURE;
 use const FILTER_VALIDATE_BOOLEAN;
 
 /**
@@ -36,7 +40,7 @@ readonly class PHPUNIT_TESTSUITE
         $env = filter_var($env, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
         if (!is_bool($env)) {
-            throw new \UnexpectedValueException('PHPUNIT_TESTSUITE');
+            throw new UnexpectedValueException('PHPUNIT_TESTSUITE');
         }
 
         return $env;

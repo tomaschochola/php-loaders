@@ -17,11 +17,8 @@ namespace TomasChochola\Quickmux;
 
 use UnexpectedValueException;
 
-use function filter_var;
 use function getenv;
 use function is_string;
-
-use const FILTER_DEFAULT;
 
 /**
  * @no-named-arguments

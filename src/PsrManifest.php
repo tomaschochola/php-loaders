@@ -36,10 +36,15 @@ readonly class PsrManifest implements IteratorAggregate
     public function getIterator(): Traversable
     {
         yield from new PsrClockManifest();
+
         yield from new PsrHttpClientManifest();
+
         yield from new PsrHttpFactoryManifest();
+
         yield from new PsrRequestHandlersManifest();
+
         yield from new PsrLoggerManifest();
+
         yield from new PsrSimpleCacheManifest();
     }
 }

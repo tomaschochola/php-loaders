@@ -18,6 +18,8 @@ namespace TomasChochola\Quickmux\Psr\Http\RequestHandlers;
 use IteratorAggregate;
 use NoDiscard;
 use Override;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorHandlerMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\NullMiddleware;
 use Traversable;
 
 /**

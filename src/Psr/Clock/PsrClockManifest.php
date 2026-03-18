@@ -19,6 +19,9 @@ use IteratorAggregate;
 use NoDiscard;
 use Override;
 use Psr\Clock\ClockInterface;
+use TomasChochola\Psr\Clock\FixedClock;
+use TomasChochola\Psr\Clock\NowClock;
+use TomasChochola\Psr\Container\SingletonResolver;
 use Traversable;
 
 /**
@@ -32,10 +35,10 @@ readonly class PsrClockManifest implements IteratorAggregate
     #[Override]
     public function getIterator(): Traversable
     {
-        yield FixedClock::class => [FixedClock::class, 'inject'];
+        yield FixedClock::class => new SingletonResolver([FixedClock::class, 'inject']);
 
-        yield NowClock::class => [NowClock::class, 'inject'];
+        yield NowClock::class => new SingletonResolver([NowClock::class, 'inject']);
 
-        yield ClockInterface::class => [NowClock::class, 'inject'];
+        yield ClockInterface::class => new SingletonResolver([NowClock::class, 'inject']);
     }
 }

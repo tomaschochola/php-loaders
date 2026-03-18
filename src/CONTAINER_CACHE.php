@@ -15,11 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Quickmux;
 
-use TomasChochola\Psr\SimpleCache\ApcuSimpleCache;
-use TomasChochola\Psr\SimpleCache\SimpleCaches;
-
 use function apcu_enabled;
-use function iterator_to_array;
 use function opcache_is_script_cached;
 
 use const PHP_SAPI;
@@ -27,21 +23,9 @@ use const PHP_SAPI;
 /**
  * @no-named-arguments
  */
-readonly class ContainerManifestCache
+readonly class CONTAINER_CACHE
 {
-    /**
-     * @return array<mixed, mixed>
-     */
-    public static function remember(ContainerManifest $manifest): array
-    {
-        if (!static::enabled()) {
-            return iterator_to_array($manifest);
-        }
-
-        return SimpleCaches::remember(new ApcuSimpleCache(), $manifest::class, static fn(): array => iterator_to_array($manifest));
-    }
-
-    protected static function enabled(): bool
+    public static function current(): bool
     {
         return apcu_enabled() && opcache_is_script_cached(__FILE__) && PHP_SAPI !== 'cli' && PHP_SAPI !== 'cli-server' && PHP_SAPI !== 'phpdbg';
     }

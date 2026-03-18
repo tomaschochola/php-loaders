@@ -25,6 +25,7 @@ use TomasChochola\Psr\Log\FormatterInterface;
 use TomasChochola\Psr\Log\FormatterWriterExporter;
 use TomasChochola\Psr\Log\JsonFormatter;
 use TomasChochola\Psr\Log\Logger;
+use TomasChochola\Psr\Log\Recorder;
 use TomasChochola\Psr\Log\RecorderInterface;
 use TomasChochola\Psr\Log\ResourceWriter;
 use TomasChochola\Psr\Log\WriterInterface;

@@ -27,11 +27,11 @@ use const FILTER_VALIDATE_BOOLEAN;
 /**
  * @no-named-arguments
  */
-readonly class PHPUNIT_TESTSUITE
+readonly class PHPUNIT_RUNNING
 {
     public static function current(): bool
     {
-        $env = getenv('PHPUNIT_TESTSUITE');
+        $env = getenv('PHPUNIT_RUNNING');
 
         if ($env === false) {
             return false;
@@ -40,7 +40,7 @@ readonly class PHPUNIT_TESTSUITE
         $env = filter_var($env, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
         if (!is_bool($env)) {
-            throw new UnexpectedValueException('PHPUNIT_TESTSUITE');
+            throw new UnexpectedValueException('PHPUNIT_RUNNING');
         }
 
         return $env;

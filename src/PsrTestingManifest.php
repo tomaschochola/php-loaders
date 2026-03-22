@@ -16,11 +16,16 @@ declare(strict_types=1);
 namespace TomasChochola\Quickmux;
 
 use IteratorAggregate;
+use NoDiscard;
 use Override;
-use TomasChochola\Quickmux\Psr\Clock\PsrClockTestingManifest;
-use TomasChochola\Quickmux\Psr\Http\RequestHandlers\PsrRequestHandlersTestingManifest;
-use TomasChochola\Quickmux\Psr\Log\PsrLoggerTestingManifest;
-use TomasChochola\Quickmux\Psr\SimpleCache\PsrSimpleCacheTestingManifest;
+use Psr\Clock\ClockInterface;
+use Psr\SimpleCache\CacheInterface;
+use TomasChochola\Psr\Clock\FixedClock;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorHandlerMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\NullMiddleware;
+use TomasChochola\Psr\Log\ExporterInterface;
+use TomasChochola\Psr\Log\TestingExporter;
+use TomasChochola\Psr\SimpleCache\NullSimpleCache;
 use Traversable;
 
 /**
@@ -30,15 +35,16 @@ use Traversable;
  */
 readonly class PsrTestingManifest implements IteratorAggregate
 {
+    #[NoDiscard]
     #[Override]
     public function getIterator(): Traversable
     {
-        yield from new PsrClockTestingManifest();
+        yield ClockInterface::class => new FixedClock();
 
-        yield from new PsrRequestHandlersTestingManifest();
+        yield ErrorHandlerMiddleware::class => new NullMiddleware();
 
-        yield from new PsrLoggerTestingManifest();
+        yield ExporterInterface::class => new TestingExporter();
 
-        yield from new PsrSimpleCacheTestingManifest();
+        yield CacheInterface::class => new NullSimpleCache();
     }
 }

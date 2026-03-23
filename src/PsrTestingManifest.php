@@ -21,10 +21,14 @@ use Override;
 use Psr\Clock\ClockInterface;
 use Psr\SimpleCache\CacheInterface;
 use TomasChochola\Psr\Clock\FixedClock;
-use TomasChochola\Psr\Http\RequestHandlers\ErrorHandlerMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorCatcherMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ExceptionCatcherMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\NullMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ThrowableCatcherMiddleware;
 use TomasChochola\Psr\Log\ExporterInterface;
-use TomasChochola\Psr\Log\TestingExporter;
+use TomasChochola\Psr\Log\Interpolator;
+use TomasChochola\Psr\Log\Contextor;
+use TomasChochola\Psr\Log\CollectingExporter;
 use TomasChochola\Psr\SimpleCache\NullSimpleCache;
 use Traversable;
 
@@ -41,9 +45,17 @@ readonly class PsrTestingManifest implements IteratorAggregate
     {
         yield ClockInterface::class => new FixedClock();
 
-        yield ErrorHandlerMiddleware::class => new NullMiddleware();
+        yield ErrorCatcherMiddleware::class => new NullMiddleware();
 
-        yield ExporterInterface::class => new TestingExporter();
+        yield ExceptionCatcherMiddleware::class => new NullMiddleware();
+
+        yield ThrowableCatcherMiddleware::class => new NullMiddleware();
+
+        yield ExporterInterface::class => new CollectingExporter();
+
+        yield Interpolator::class => new Interpolator();
+
+        yield Contextor::class => new Contextor();
 
         yield CacheInterface::class => new NullSimpleCache();
     }

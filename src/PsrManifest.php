@@ -39,8 +39,11 @@ use TomasChochola\Psr\Http\Factory\ResponseFactory;
 use TomasChochola\Psr\Http\Factory\ServerRequestFactory;
 use TomasChochola\Psr\Http\Factory\StreamFactory;
 use TomasChochola\Psr\Http\Factory\UriFactory;
-use TomasChochola\Psr\Http\RequestHandlers\ErrorHandlerMiddleware;
-use TomasChochola\Psr\Http\RequestHandlers\ExceptionHandlerMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorCatcherMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorLoggerMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ErrorRaiserMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ExceptionCatcherMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ExceptionLoggerMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\JsonEncoder;
 use TomasChochola\Psr\Http\RequestHandlers\JsonResponder;
 use TomasChochola\Psr\Http\RequestHandlers\JsonWriter;
@@ -49,23 +52,33 @@ use TomasChochola\Psr\Http\RequestHandlers\NotFoundRequestHandler;
 use TomasChochola\Psr\Http\RequestHandlers\NullMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\OkRequestHandler;
 use TomasChochola\Psr\Http\RequestHandlers\PipelineResolver;
+use TomasChochola\Psr\Http\RequestHandlers\RequireParsedBodyMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ResponseEmitter;
+use TomasChochola\Psr\Http\RequestHandlers\AfterPipeline;
+use TomasChochola\Psr\Http\RequestHandlers\BeforePipeline;
 use TomasChochola\Psr\Http\RequestHandlers\RouteMatcher;
 use TomasChochola\Psr\Http\RequestHandlers\RouteRequestHandler;
 use TomasChochola\Psr\Http\RequestHandlers\StreamWriter;
+use TomasChochola\Psr\Http\RequestHandlers\ThrowableCatcherMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\ThrowableLoggerMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestCookiesMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\WithRequestFormMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestHeadersMiddleware;
-use TomasChochola\Psr\Http\RequestHandlers\WithRequestPayloadMiddleware;
+use TomasChochola\Psr\Http\RequestHandlers\WithRequestJsonMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestQueryMiddleware;
 use TomasChochola\Psr\Log\ExporterInterface;
 use TomasChochola\Psr\Log\FormatterInterface;
 use TomasChochola\Psr\Log\FormatterWriterExporter;
+use TomasChochola\Psr\Log\Interpolator;
+use TomasChochola\Psr\Log\InterpolatorInterface;
 use TomasChochola\Psr\Log\JsonFormatter;
 use TomasChochola\Psr\Log\Logger;
 use TomasChochola\Psr\Log\Recorder;
 use TomasChochola\Psr\Log\RecorderInterface;
 use TomasChochola\Psr\Log\ResourceWriter;
-use TomasChochola\Psr\Log\TestingExporter;
+use TomasChochola\Psr\Log\CollectingExporter;
+use TomasChochola\Psr\Log\Contextor;
+use TomasChochola\Psr\Log\ContextorInterface;
 use TomasChochola\Psr\Log\WriterInterface;
 use TomasChochola\Psr\SimpleCache\ApcuSimpleCache;
 use TomasChochola\Psr\SimpleCache\NullSimpleCache;
@@ -116,9 +129,19 @@ readonly class PsrManifest implements IteratorAggregate
 
         yield UriFactoryInterface::class => new SingletonResolver([UriFactory::class, 'inject']);
 
-        yield ErrorHandlerMiddleware::class => new SingletonResolver([ErrorHandlerMiddleware::class, 'inject']);
+        yield ErrorRaiserMiddleware::class => new SingletonResolver([ErrorRaiserMiddleware::class, 'inject']);
 
-        yield ExceptionHandlerMiddleware::class => new SingletonResolver([ExceptionHandlerMiddleware::class, 'inject']);
+        yield ErrorCatcherMiddleware::class => new SingletonResolver([ErrorCatcherMiddleware::class, 'inject']);
+
+        yield ExceptionCatcherMiddleware::class => new SingletonResolver([ExceptionCatcherMiddleware::class, 'inject']);
+
+        yield ThrowableCatcherMiddleware::class => new SingletonResolver([ThrowableCatcherMiddleware::class, 'inject']);
+
+        yield ErrorLoggerMiddleware::class => new SingletonResolver([ErrorLoggerMiddleware::class, 'inject']);
+
+        yield ExceptionLoggerMiddleware::class => new SingletonResolver([ExceptionLoggerMiddleware::class, 'inject']);
+
+        yield ThrowableLoggerMiddleware::class => new SingletonResolver([ThrowableLoggerMiddleware::class, 'inject']);
 
         yield JsonEncoder::class => new SingletonResolver([JsonEncoder::class, 'inject']);
 
@@ -136,7 +159,13 @@ readonly class PsrManifest implements IteratorAggregate
 
         yield PipelineResolver::class => new SingletonResolver([PipelineResolver::class, 'inject']);
 
+        yield RequireParsedBodyMiddleware::class => new SingletonResolver([RequireParsedBodyMiddleware::class, 'inject']);
+
         yield ResponseEmitter::class => new SingletonResolver([ResponseEmitter::class, 'inject']);
+
+        yield AfterPipeline::class => new SingletonResolver([AfterPipeline::class, 'inject']);
+
+        yield BeforePipeline::class => new SingletonResolver([BeforePipeline::class, 'inject']);
 
         yield RouteMatcher::class => new SingletonResolver([RouteMatcher::class, 'inject']);
 
@@ -150,7 +179,9 @@ readonly class PsrManifest implements IteratorAggregate
 
         yield WithRequestHeadersMiddleware::class => new SingletonResolver([WithRequestHeadersMiddleware::class, 'inject']);
 
-        yield WithRequestPayloadMiddleware::class => new SingletonResolver([WithRequestPayloadMiddleware::class, 'inject']);
+        yield WithRequestFormMiddleware::class => new SingletonResolver([WithRequestFormMiddleware::class, 'inject']);
+
+        yield WithRequestJsonMiddleware::class => new SingletonResolver([WithRequestJsonMiddleware::class, 'inject']);
 
         yield WithRequestQueryMiddleware::class => new SingletonResolver([WithRequestQueryMiddleware::class, 'inject']);
 
@@ -158,13 +189,21 @@ readonly class PsrManifest implements IteratorAggregate
 
         yield RecorderInterface::class => new SingletonResolver([Recorder::class, 'inject']);
 
+        yield Interpolator::class => new SingletonResolver([Interpolator::class, 'inject']);
+
+        yield InterpolatorInterface::class => new SingletonResolver([Interpolator::class, 'inject']);
+
+        yield Contextor::class => new SingletonResolver([Contextor::class, 'inject']);
+
+        yield ContextorInterface::class => new SingletonResolver([Contextor::class, 'inject']);
+
         yield FormatterInterface::class => new SingletonResolver([JsonFormatter::class, 'inject']);
 
         yield WriterInterface::class => new SingletonResolver([ResourceWriter::class, 'inject']);
 
         yield ExporterInterface::class => new SingletonResolver([FormatterWriterExporter::class, 'inject']);
 
-        yield TestingExporter::class => new SingletonResolver([TestingExporter::class, 'inject']);
+        yield CollectingExporter::class => new SingletonResolver([CollectingExporter::class, 'inject']);
 
         yield LoggerInterface::class => new SingletonResolver([Logger::class, 'inject']);
 

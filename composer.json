@@ -96,11 +96,6 @@
       "no-api": true,
       "type": "git",
       "url": "https://github.com/tomaschochola/php-psr-3-logger.git"
-    },
-    {
-      "no-api": true,
-      "type": "git",
-      "url": "https://github.com/tomaschochola/php-splx.git"
     }
   ],
   "require": {

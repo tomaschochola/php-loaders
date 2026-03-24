@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace TomasChochola\Quickmux;
+namespace TomasChochola\Loaders;
 
 use IteratorAggregate;
 use Override;

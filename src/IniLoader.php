@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace TomasChochola\Quickmux;
+namespace TomasChochola\Loaders;
 
 use DirectoryIterator;
 use IteratorAggregate;
@@ -24,7 +24,7 @@ use function assert;
 use function is_iterable;
 use function parse_ini_file;
 
-use const INI_SCANNER_TYPED;
+use const INI_SCANNER_RAW;
 
 /**
  * @no-named-arguments
@@ -39,7 +39,7 @@ readonly class IniLoader implements IteratorAggregate
 
     protected readonly int $scannerMode;
 
-    public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_TYPED)
+    public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_RAW)
     {
         $this->files = $files;
         $this->processSections = $processSections;
@@ -52,7 +52,9 @@ readonly class IniLoader implements IteratorAggregate
         foreach ($this->files as $file) {
             $parsed = parse_ini_file((string) $file, $this->processSections, $this->scannerMode);
 
-            assert(is_iterable($parsed));
+            if (!is_iterable($parsed)) {
+                throw new \UnexpectedValueException('parse_ini_file');
+            }
 
             yield from $parsed;
         }

@@ -9,7 +9,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "TomasChochola\\Quickmux\\": "./src"
+      "TomasChochola\\Loaders\\": "./src"
     }
   },
   "autoload-dev": {
@@ -26,24 +26,24 @@
     "process-timeout": 0,
     "sort-packages": true
   },
-  "description": "tomaschochola/php-quickmux",
+  "description": "tomaschochola/php-loaders",
   "funding": [
     {
       "type": "github",
       "url": "https://github.com/sponsors/tomaschochola"
     }
   ],
-  "homepage": "https://github.com/tomaschochola/php-quickmux",
+  "homepage": "https://github.com/tomaschochola/php-loaders",
   "keywords": [
     "tomaschochola",
     "TomasChochola",
     "Tomas Chochola",
     "Tomáš Chochola",
-    "php-quickmux"
+    "php-loaders"
   ],
   "license": "CC-BY-ND-4.0",
   "minimum-stability": "dev",
-  "name": "tomaschochola/php-quickmux",
+  "name": "tomaschochola/php-loaders",
   "prefer-stable": true,
   "readme": "./README.md",
   "repositories": [
@@ -131,10 +131,10 @@
     "tomaschochola/php-tooling-phpstan-config": "^1.0@dev"
   },
   "support": {
-    "docs": "https://github.com/tomaschochola/php-quickmux",
+    "docs": "https://github.com/tomaschochola/php-loaders",
     "email": "tomaschochola@tomaschochola.cz",
-    "issues": "https://github.com/tomaschochola/php-quickmux/issues",
-    "source": "https://github.com/tomaschochola/php-quickmux.git"
+    "issues": "https://github.com/tomaschochola/php-loaders/issues",
+    "source": "https://github.com/tomaschochola/php-loaders.git"
   },
   "type": "library"
 }

@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace TomasChochola\Quickmux;
+namespace TomasChochola\Loaders;
 
 use DirectoryIterator;
 use IteratorAggregate;
@@ -43,7 +43,9 @@ readonly class PhpLoader implements IteratorAggregate
         foreach ($this->files as $file) {
             $loaded = require (string) $file;
 
-            assert(is_iterable($loaded));
+            if (!is_iterable($loaded)) {
+                throw new \UnexpectedValueException('require');
+            }
 
             yield from $loaded;
         }

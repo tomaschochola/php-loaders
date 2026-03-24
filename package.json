@@ -6,7 +6,7 @@
   },
   "bugs": {
     "email": "tomaschochola@tomaschochola.cz",
-    "url": "https://github.com/tomaschochola/php-quickmux/issues"
+    "url": "https://github.com/tomaschochola/php-loaders/issues"
   },
   "contributors": [
     {
@@ -15,7 +15,7 @@
       "url": "https://github.com/tomaschochola"
     }
   ],
-  "description": "@tomaschochola/php-quickmux",
+  "description": "@tomaschochola/php-loaders",
   "devDependencies": {
     "@tomaschochola/ts-tooling-eslint-config": "github:tomaschochola/ts-tooling-eslint-config#1.x",
     "@tomaschochola/ts-tooling-prettier-config": "github:tomaschochola/ts-tooling-prettier-config#1.x"
@@ -24,17 +24,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/tomaschochola"
   },
-  "homepage": "https://github.com/tomaschochola/php-quickmux",
+  "homepage": "https://github.com/tomaschochola/php-loaders",
   "keywords": [
     "tomaschochola",
     "TomasChochola",
     "Tomas Chochola",
     "Tomáš Chochola",
-    "php-quickmux"
+    "php-loaders"
   ],
   "license": "CC-BY-ND-4.0",
-  "name": "@tomaschochola/php-quickmux",
-  "repository": "github:tomaschochola/php-quickmux",
+  "name": "@tomaschochola/php-loaders",
+  "repository": "github:tomaschochola/php-loaders",
   "sideEffects": false,
   "type": "module"
 }

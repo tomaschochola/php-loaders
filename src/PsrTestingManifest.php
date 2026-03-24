@@ -25,10 +25,8 @@ use TomasChochola\Psr\Http\RequestHandlers\ErrorCatcherMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ExceptionCatcherMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\NullMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ThrowableCatcherMiddleware;
-use TomasChochola\Psr\Log\ExporterInterface;
-use TomasChochola\Psr\Log\Interpolator;
-use TomasChochola\Psr\Log\Contextor;
 use TomasChochola\Psr\Log\CollectingExporter;
+use TomasChochola\Psr\Log\ExporterInterface;
 use TomasChochola\Psr\SimpleCache\NullSimpleCache;
 use Traversable;
 
@@ -52,10 +50,6 @@ readonly class PsrTestingManifest implements IteratorAggregate
         yield ThrowableCatcherMiddleware::class => new NullMiddleware();
 
         yield ExporterInterface::class => new CollectingExporter();
-
-        yield Interpolator::class => new Interpolator();
-
-        yield Contextor::class => new Contextor();
 
         yield CacheInterface::class => new NullSimpleCache();
     }

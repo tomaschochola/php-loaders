@@ -39,6 +39,8 @@ use TomasChochola\Psr\Http\Factory\ResponseFactory;
 use TomasChochola\Psr\Http\Factory\ServerRequestFactory;
 use TomasChochola\Psr\Http\Factory\StreamFactory;
 use TomasChochola\Psr\Http\Factory\UriFactory;
+use TomasChochola\Psr\Http\RequestHandlers\AfterPipeline;
+use TomasChochola\Psr\Http\RequestHandlers\BeforePipeline;
 use TomasChochola\Psr\Http\RequestHandlers\ErrorCatcherMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ErrorLoggerMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ErrorRaiserMiddleware;
@@ -54,8 +56,6 @@ use TomasChochola\Psr\Http\RequestHandlers\OkRequestHandler;
 use TomasChochola\Psr\Http\RequestHandlers\PipelineResolver;
 use TomasChochola\Psr\Http\RequestHandlers\RequireParsedBodyMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\ResponseEmitter;
-use TomasChochola\Psr\Http\RequestHandlers\AfterPipeline;
-use TomasChochola\Psr\Http\RequestHandlers\BeforePipeline;
 use TomasChochola\Psr\Http\RequestHandlers\RouteMatcher;
 use TomasChochola\Psr\Http\RequestHandlers\RouteRequestHandler;
 use TomasChochola\Psr\Http\RequestHandlers\StreamWriter;
@@ -66,6 +66,7 @@ use TomasChochola\Psr\Http\RequestHandlers\WithRequestFormMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestHeadersMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestJsonMiddleware;
 use TomasChochola\Psr\Http\RequestHandlers\WithRequestQueryMiddleware;
+use TomasChochola\Psr\Log\CollectingExporter;
 use TomasChochola\Psr\Log\ExporterInterface;
 use TomasChochola\Psr\Log\FormatterInterface;
 use TomasChochola\Psr\Log\FormatterWriterExporter;
@@ -76,9 +77,6 @@ use TomasChochola\Psr\Log\Logger;
 use TomasChochola\Psr\Log\Recorder;
 use TomasChochola\Psr\Log\RecorderInterface;
 use TomasChochola\Psr\Log\ResourceWriter;
-use TomasChochola\Psr\Log\CollectingExporter;
-use TomasChochola\Psr\Log\Contextor;
-use TomasChochola\Psr\Log\ContextorInterface;
 use TomasChochola\Psr\Log\WriterInterface;
 use TomasChochola\Psr\SimpleCache\ApcuSimpleCache;
 use TomasChochola\Psr\SimpleCache\NullSimpleCache;
@@ -192,10 +190,6 @@ readonly class PsrManifest implements IteratorAggregate
         yield Interpolator::class => new SingletonResolver([Interpolator::class, 'inject']);
 
         yield InterpolatorInterface::class => new SingletonResolver([Interpolator::class, 'inject']);
-
-        yield Contextor::class => new SingletonResolver([Contextor::class, 'inject']);
-
-        yield ContextorInterface::class => new SingletonResolver([Contextor::class, 'inject']);
 
         yield FormatterInterface::class => new SingletonResolver([JsonFormatter::class, 'inject']);
 

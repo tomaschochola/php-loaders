@@ -45,23 +45,23 @@ readonly class EnvLoader implements IteratorAggregate
     #[Override]
     public function getIterator(): Traversable
     {
-        foreach ($this->keys as $key => $fallback) {
+        foreach ($this->keys as $key => $alias) {
             if (is_int($key)) {
-                $value = getenv($fallback);
+                $value = getenv($alias);
 
                 if ($value === false) {
-                    $value = '';
+                    continue;
                 }
 
-                yield $fallback => $value;
+                yield $alias => $value;
             } else {
                 $value = getenv($key);
 
                 if ($value === false) {
-                    $value = $fallback;
+                    continue;
                 }
 
-                yield $key => $value;
+                yield $alias => $value;
             }
         }
     }

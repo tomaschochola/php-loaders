@@ -19,8 +19,8 @@ use DirectoryIterator;
 use IteratorAggregate;
 use Override;
 use Traversable;
+use UnexpectedValueException;
 
-use function assert;
 use function is_iterable;
 use function parse_ini_file;
 
@@ -53,7 +53,7 @@ readonly class IniLoader implements IteratorAggregate
             $parsed = parse_ini_file((string) $file, $this->processSections, $this->scannerMode);
 
             if (!is_iterable($parsed)) {
-                throw new \UnexpectedValueException('parse_ini_file');
+                throw new UnexpectedValueException('parse_ini_file');
             }
 
             yield from $parsed;

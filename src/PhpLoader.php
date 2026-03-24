@@ -19,8 +19,8 @@ use DirectoryIterator;
 use IteratorAggregate;
 use Override;
 use Traversable;
+use UnexpectedValueException;
 
-use function assert;
 use function is_iterable;
 
 /**
@@ -44,7 +44,7 @@ readonly class PhpLoader implements IteratorAggregate
             $loaded = require (string) $file;
 
             if (!is_iterable($loaded)) {
-                throw new \UnexpectedValueException('require');
+                throw new UnexpectedValueException('require');
             }
 
             yield from $loaded;

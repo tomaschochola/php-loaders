@@ -22,9 +22,10 @@ use UnexpectedValueException;
 
 use function getenv;
 use function is_int;
+use function is_string;
 
 /**
- * @implements IteratorAggregate<int|string, string>
+ * @implements IteratorAggregate<mixed, string>
  *
  * @no-named-arguments
  */
@@ -33,12 +34,12 @@ readonly class EnvLoader implements IteratorAggregate
     private readonly bool|null $fallback;
 
     /**
-     * @var iterable<int|string, string>
+     * @var iterable<mixed, string>
      */
     private readonly iterable $keys;
 
     /**
-     * @param iterable<int|string, string> $keys
+     * @param iterable<mixed, string> $keys
      */
     public function __construct(iterable $keys, bool|null $fallback = null)
     {
@@ -52,8 +53,10 @@ readonly class EnvLoader implements IteratorAggregate
         foreach ($this->keys as $key => $alias) {
             if (is_int($key)) {
                 $value = getenv($alias);
-            } else {
+            } elseif (is_string($key)) {
                 $value = getenv($key);
+            } else {
+                continue;
             }
 
             if ($value === false) {

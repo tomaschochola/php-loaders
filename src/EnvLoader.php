@@ -18,6 +18,7 @@ namespace TomasChochola\Loaders;
 use IteratorAggregate;
 use Override;
 use Traversable;
+use UnexpectedValueException;
 
 use function getenv;
 use function is_int;
@@ -29,17 +30,20 @@ use function is_int;
  */
 readonly class EnvLoader implements IteratorAggregate
 {
+    private readonly bool|null $fallback;
+
     /**
      * @var iterable<int|string, string>
      */
-    protected readonly iterable $keys;
+    private readonly iterable $keys;
 
     /**
      * @param iterable<int|string, string> $keys
      */
-    public function __construct(iterable $keys)
+    public function __construct(iterable $keys, bool|null $fallback = null)
     {
         $this->keys = $keys;
+        $this->fallback = $fallback;
     }
 
     #[Override]
@@ -48,19 +52,17 @@ readonly class EnvLoader implements IteratorAggregate
         foreach ($this->keys as $key => $alias) {
             if (is_int($key)) {
                 $value = getenv($alias);
-
-                if ($value === false) {
-                    continue;
-                }
-
-                yield $alias => $value;
             } else {
                 $value = getenv($key);
+            }
 
-                if ($value === false) {
-                    continue;
+            if ($value === false) {
+                if ($this->fallback === true) {
+                    yield $alias => '';
+                } elseif ($this->fallback === false) {
+                    throw new UnexpectedValueException($alias);
                 }
-
+            } else {
                 yield $alias => $value;
             }
         }

@@ -30,7 +30,7 @@ use function is_iterable;
  */
 readonly class PhpLoader implements IteratorAggregate
 {
-    protected readonly DirectoryIterator $files;
+    private readonly DirectoryIterator $files;
 
     public function __construct(DirectoryIterator $files)
     {

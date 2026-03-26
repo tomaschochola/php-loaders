@@ -33,11 +33,11 @@ use const INI_SCANNER_RAW;
  */
 readonly class IniLoader implements IteratorAggregate
 {
-    protected readonly DirectoryIterator $files;
+    private readonly DirectoryIterator $files;
 
-    protected readonly bool $processSections;
+    private readonly bool $processSections;
 
-    protected readonly int $scannerMode;
+    private readonly int $scannerMode;
 
     public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_RAW)
     {

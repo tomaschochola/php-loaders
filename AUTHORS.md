@@ -15,7 +15,7 @@ This work targets environments where quality and maintainability are the only me
 ### Contact
 
 **Email**<br />
-chocholatom1997@gmail.com
+tomaschochola@tomaschochola.cz
 
 **GitHub Profile**<br />
 https://github.com/tomaschochola

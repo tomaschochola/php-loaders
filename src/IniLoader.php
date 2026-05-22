@@ -33,11 +33,11 @@ use const INI_SCANNER_RAW;
  */
 readonly class IniLoader implements IteratorAggregate
 {
-    private readonly DirectoryIterator $files;
+    private DirectoryIterator $files;
 
-    private readonly bool $processSections;
+    private bool $processSections;
 
-    private readonly int $scannerMode;
+    private int $scannerMode;
 
     public function __construct(DirectoryIterator $files, bool $processSections = true, int $scannerMode = INI_SCANNER_RAW)
     {
@@ -46,7 +46,7 @@ readonly class IniLoader implements IteratorAggregate
         $this->scannerMode = $scannerMode;
     }
 
-    #[Override]
+    #[Override()]
     public function getIterator(): Traversable
     {
         foreach ($this->files as $file) {

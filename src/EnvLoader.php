@@ -31,23 +31,23 @@ use function is_string;
  */
 readonly class EnvLoader implements IteratorAggregate
 {
-    private readonly bool|null $fallback;
+    private bool | null $fallback;
 
     /**
      * @var iterable<mixed, string>
      */
-    private readonly iterable $keys;
+    private iterable $keys;
 
     /**
      * @param iterable<mixed, string> $keys
      */
-    public function __construct(iterable $keys, bool|null $fallback = null)
+    public function __construct(iterable $keys, bool | null $fallback = null)
     {
         $this->keys = $keys;
         $this->fallback = $fallback;
     }
 
-    #[Override]
+    #[Override()]
     public function getIterator(): Traversable
     {
         foreach ($this->keys as $key => $alias) {

@@ -30,14 +30,14 @@ use function is_iterable;
  */
 readonly class PhpLoader implements IteratorAggregate
 {
-    private readonly DirectoryIterator $files;
+    private DirectoryIterator $files;
 
     public function __construct(DirectoryIterator $files)
     {
         $this->files = $files;
     }
 
-    #[Override]
+    #[Override()]
     public function getIterator(): Traversable
     {
         foreach ($this->files as $file) {

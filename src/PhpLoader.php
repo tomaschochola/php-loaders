@@ -41,7 +41,11 @@ readonly class PhpLoader implements IteratorAggregate
     public function getIterator(): Traversable
     {
         foreach ($this->files as $file) {
-            $loaded = require (string) $file;
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            $loaded = require $file->getPathname();
 
             if (!is_iterable($loaded)) {
                 throw new UnexpectedValueException('require');

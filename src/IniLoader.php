@@ -50,7 +50,11 @@ readonly class IniLoader implements IteratorAggregate
     public function getIterator(): Traversable
     {
         foreach ($this->files as $file) {
-            $parsed = parse_ini_file((string) $file, $this->processSections, $this->scannerMode);
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            $parsed = parse_ini_file($file->getPathname(), $this->processSections, $this->scannerMode);
 
             if (!is_iterable($parsed)) {
                 throw new UnexpectedValueException('parse_ini_file');

@@ -31,10 +31,7 @@
         "TomasChochola",
         "Tomas Chochola",
         "Tomáš Chochola",
-        "configuration",
-        "environment",
-        "ini",
-        "loader"
+        "php-loaders"
     ],
     "license": "CC-BY-ND-4.0",
     "name": "@tomaschochola/php-loaders",
